@@ -46,6 +46,9 @@ export default class PrimateLabel extends HTMLElement {
         :host( [kind=error] ) p {
           color: var( --label-error-color, #da1e28 );
         }
+        :host( [kind=inverted] ) p {
+          color: var( --label-error-color, #ffffff );
+        }        
         :host( [kind=link] ) p {
           color: var( --label-link-color, #0f62fe );
         }

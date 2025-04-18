@@ -58,6 +58,9 @@ export default class PrimateIcon extends HTMLElement {
         :host( [kind=error] ) i {
           color: var( --icon-error-color, #da1e28 );
         }
+        :host( [kind=inverted] ) i {
+          color: var( --icon-error-color, #ffffff );
+        }        
         :host( [kind=link] ) i {
           color: var( --icon-link-color, #0f62fe );
         }
