@@ -20,16 +20,47 @@ export default class PrimateLabel extends HTMLElement {
           color: var( --label-color, #161616 );
           cursor: var( --label-cursor, default );
           font-family: 'IBM Plex Sans', sans-serif;
-          font-size: var( --label-font-size, 16px );
+          font-size: var( --label-font-size, 14px );
           font-style: normal;
           font-weight: var( --label-font-weight, 400 );
-          line-height: var( --label-line-height, 20px );
+          line-height: var( --label-line-height, 18px );
           margin: 0;
           padding: 0;
           text-align: var( --label-text-align, left );
           text-decoration: var( --label-text-decoration, none );     
           text-transform: var( --label-text-transform, none );     
           text-rendering: optimizeLegibility;
+        }
+
+        :host( [center] ) p {
+          text-align: center;
+        }
+
+        :host( [monospace] ) p {
+          font-family: 'IBM Plex Mono', sans-serif;          
+        }
+
+        :host( [kind=disabled] ) p {
+          color: var( --label-disabled-color, #16161640 );
+        }        
+        :host( [kind=error] ) p {
+          color: var( --label-error-color, #da1e28 );
+        }
+        :host( [kind=link] ) p {
+          color: var( --label-link-color, #0f62fe );
+        }
+        :host( [kind=subtle] ) p {
+          color: var( --label-success-color, #525252 );
+        }                
+        :host( [kind=success] ) p {
+          color: var( --label-success-color, #24a148 );
+        }        
+        :host( [kind=warning] ) p {
+          color: var( --label-warning-color, #fddc69 );
+        }                
+
+        :host( [disabled] ) p {
+          color: var( --label-disabled-color, #16161640 );
         }
 
         :host( [size=xs] ) p {
@@ -40,6 +71,10 @@ export default class PrimateLabel extends HTMLElement {
           font-size: 14px;
           line-height: 18px;
         }
+        :host( [size=m] ) p {
+          font-size: 16px;
+          line-height: 20px;
+        }        
         :host( [size=l] ) p {
           font-size: 18px;
           line-height: 22px;
@@ -106,7 +141,11 @@ export default class PrimateLabel extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'center' );    
+    this._upgrade( 'disabled' );            
     this._upgrade( 'hidden' );    
+    this._upgrade( 'kind' );      
+    this._upgrade( 'monospace' );          
     this._upgrade( 'size' );  
     this._upgrade( 'text' );              
     this._upgrade( 'truncate' );    
@@ -117,7 +156,11 @@ export default class PrimateLabel extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'center',
+      'disabled',
       'hidden',
+      'kind',
+      'monospace',
       'size',
       'text',
       'truncate',
@@ -134,6 +177,46 @@ export default class PrimateLabel extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get center() {
+    return this.hasAttribute( 'center' );
+  }
+
+  set center( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'center' );
+      } else {
+        this.setAttribute( 'center', '' );
+      }
+    } else {
+      this.removeAttribute( 'center' );
+    }
+  }
+
+  get disabled() {
+    return this.hasAttribute( 'disabled' );
+  }
+
+  set disabled( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'disabled' );
+      } else {
+        this.setAttribute( 'disabled', '' );
+      }
+    } else {
+      this.removeAttribute( 'disabled' );
+    }
+  }
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }
@@ -153,6 +236,42 @@ export default class PrimateLabel extends HTMLElement {
       this.removeAttribute( 'hidden' );
     }
   }   
+
+  get kind() {
+    if( this.hasAttribute( 'kind' ) ) {
+      return this.getAttribute( 'kind' );
+    }
+
+    return null;
+  }
+
+  set kind( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'kind', value );
+    } else {
+      this.removeAttribute( 'kind' );
+    }
+  }         
+
+  get monospace() {
+    return this.hasAttribute( 'monospace' );
+  }
+
+  set monospace( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'monospace' );
+      } else {
+        this.setAttribute( 'monospace', '' );
+      }
+    } else {
+      this.removeAttribute( 'monospace' );
+    }
+  }  
 
   get size() {
     if( this.hasAttribute( 'size' ) ) {

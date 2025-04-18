@@ -22,31 +22,61 @@ export default class PrimateIcon extends HTMLElement {
           direction: ltr;
           display: flex;
           font-family: 'Material Symbols Outlined';
-          font-size: var( --icon-size, 24px );
+          font-size: var( --icon-size, 20px );
           font-style: normal;
           font-weight: normal;
-          height: var( --icon-size, 24px );
+          height: var( --icon-size, 20px );
           letter-spacing: normal;
-          line-height: var( --icon-size, 24px );
+          line-height: var( --icon-size, 20px );
           margin: 0;
-          max-height: var( --icon-size, 24px );
-          max-width: var( --icon-size, 24px );
-          min-height: var( --icon-size, 24px );
-          min-width: var( --icon-size, 24px );
+          max-height: var( --icon-size, 20px );
+          max-width: var( --icon-size, 20px );
+          min-height: var( --icon-size, 20px );
+          min-width: var( --icon-size, 20px );
           padding: 0;
           text-align: center;
           text-rendering: optimizeLegibility;
           text-transform: none;
           white-space: nowrap;
-          width: var( --icon-size, 24px );
+          width: var( --icon-size, 20px );
           word-wrap: normal;  
         }
 
-        :host( [disabled] ) i {
-          color: #aaaaaa;
+        img {
+          height: 20px;
+          max-height: 20px;
+          max-width: 20px;
+          min-height: 20px;
+          min-width: 20px;
+          object-fit: contain;
+          width: 20px;
         }
 
-        :host( [size=xs] ) i {
+        :host( [kind=disabled] ) i {
+          color: var( --icon-disabled-color, #16161640 );
+        }        
+        :host( [kind=error] ) i {
+          color: var( --icon-error-color, #da1e28 );
+        }
+        :host( [kind=link] ) i {
+          color: var( --icon-link-color, #0f62fe );
+        }
+        :host( [kind=subtle] ) i {
+          color: var( --icon-success-color, #525252 );
+        }                
+        :host( [kind=success] ) i {
+          color: var( --icon-success-color, #24a148 );
+        }        
+        :host( [kind=warning] ) i {
+          color: var( --icon-warning-color, #fddc69 );
+        }                
+
+        :host( [disabled] ) i {
+          color: var( --icon-disabled-color, #16161640 );
+        }        
+
+        :host( [size=xs] ) i,
+        :host( [size=xs] ) img {
           font-size: 16px;
           height: 16px;
           line-height: 16px;
@@ -57,7 +87,8 @@ export default class PrimateIcon extends HTMLElement {
           width: 16px;
         }
 
-        :host( [size=s] ) i {
+        :host( [size=s] ) i,
+        :host( [size=s] ) img {
           font-size: 20px;
           height: 20px;
           line-height: 20px;
@@ -68,7 +99,20 @@ export default class PrimateIcon extends HTMLElement {
           width: 20px;
         }        
 
-        :host( [size=l] ) i {
+        :host( [size=m] ) i,
+        :host( [size=m] ) img {
+          font-size: 24px;
+          height: 24px;
+          line-height: 24px;
+          max-height: 24px;
+          max-width: 24px;
+          min-height: 24px;
+          min-width: 24px;
+          width: 24px;
+        }       
+
+        :host( [size=l] ) i,
+        :host( [size=l] ) img {
           font-size: 32px;
           height: 32px;
           line-height: 32px;
@@ -79,7 +123,8 @@ export default class PrimateIcon extends HTMLElement {
           width: 32px;
         }
         
-        :host( [size=xl] ) i {
+        :host( [size=xl] ) i,
+        :host( [size=xl] ) img {
           font-size: 48px;
           height: 48px;
           line-height: 48px;
@@ -89,8 +134,17 @@ export default class PrimateIcon extends HTMLElement {
           min-width: 48px;
           width: 48px;
         }        
+
+        :host( :not( [name] ) ) i {
+          display: none;
+        }
+
+        :host( :not( [src] ) ) img {
+          display: none;
+        }
       </style>
       <i part="icon"></i>
+      <img part="image">
     `;
 
     // Root
@@ -99,18 +153,20 @@ export default class PrimateIcon extends HTMLElement {
 
     // Elements
     this.$icon = this.shadowRoot.querySelector( 'i' ); 
+    this.$image = this.shadowRoot.querySelector( 'img' );
   }
 
   // When attributes change
   _render() {
     this.$icon.textContent = this.name === null ? '' : this.name;
+    this.$image.src = this.src === null ? '' : this.src;
 
     if( this.name !== null ) {
       const variation = [];
       variation.push( '\'FILL\' ' + ( this.filled ? 1 : 0 ) );                        
       variation.push( '\'wght\' ' + ( this.weight === null ? 400 : this.weight ) );              
       variation.push( '\'GRAD\' ' + ( this.grade === null ? 0 : this.grade ) );                              
-      variation.push( '\'opsz\' ' + ( this.optical === null ? 24 : this.optical ) );                
+      variation.push( '\'opsz\' ' + ( this.optical === null ? 20 : this.optical ) );                
       this.$icon.style.fontVariationSettings = variation.toString();    
     }    
   }
@@ -131,9 +187,11 @@ export default class PrimateIcon extends HTMLElement {
     this._upgrade( 'filled' );        
     this._upgrade( 'grade' );            
     this._upgrade( 'hidden' );    
+    this._upgrade( 'kind' );                
     this._upgrade( 'name' );    
     this._upgrade( 'optical' );    
     this._upgrade( 'size' );        
+    this._upgrade( 'src' );        
     this._upgrade( 'weight' );    
     this._render();
   }
@@ -145,9 +203,11 @@ export default class PrimateIcon extends HTMLElement {
       'filled',
       'grade',
       'hidden',
+      'kind',
       'name',
       'optical',
       'size',
+      'src',
       'weight'
     ];
   }
@@ -237,6 +297,22 @@ export default class PrimateIcon extends HTMLElement {
     }
   }   
 
+  get kind() {
+    if( this.hasAttribute( 'kind' ) ) {
+      return this.getAttribute( 'kind' );
+    }
+
+    return null;
+  }
+
+  set kind( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'kind', value );
+    } else {
+      this.removeAttribute( 'kind' );
+    }
+  }  
+
   get name() {
     if( this.hasAttribute( 'name' ) ) {
       return this.getAttribute( 'name' );
@@ -251,7 +327,7 @@ export default class PrimateIcon extends HTMLElement {
     } else {
       this.removeAttribute( 'name' );
     }
-  }  
+  }    
 
   get optical() {
     if( this.hasAttribute( 'optical' ) ) {
@@ -282,6 +358,22 @@ export default class PrimateIcon extends HTMLElement {
       this.setAttribute( 'size', value );
     } else {
       this.removeAttribute( 'size' );
+    }
+  }  
+
+  get src() {
+    if( this.hasAttribute( 'src' ) ) {
+      return this.getAttribute( 'src' );
+    }
+
+    return null;
+  }
+
+  set src( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'src', value );
+    } else {
+      this.removeAttribute( 'src' );
     }
   }  
 

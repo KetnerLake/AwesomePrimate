@@ -48,6 +48,7 @@ export default class PrimateFormatDate extends HTMLElement {
     const date = this.date === null ? new Date() : new Date( Date.parse( this.date ) );
     const formatter = new Intl.DateTimeFormat( locale, options );
     this.$label.textContent = formatter.format( date );
+    this.$label.disabled = this.disabled
   }
 
   // Properties set before module loaded
@@ -64,6 +65,7 @@ export default class PrimateFormatDate extends HTMLElement {
     this._upgrade( 'date' );                     
     this._upgrade( 'dateAsObject' );                     
     this._upgrade( 'day' );    
+    this._upgrade( 'disabled' );    
     this._upgrade( 'era' );                                                                
     this._upgrade( 'hidden' );                        
     this._upgrade( 'hour' );
@@ -84,6 +86,7 @@ export default class PrimateFormatDate extends HTMLElement {
     return [
       'date',
       'day',
+      'disabled',
       'era',
       'hidden',
       'hour',
@@ -150,6 +153,26 @@ export default class PrimateFormatDate extends HTMLElement {
       this.removeAttribute( 'day' );
     }
   }
+
+  get disabled() {
+    return this.hasAttribute( 'disabled' );
+  }
+
+  set disabled( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'disabled' );
+      } else {
+        this.setAttribute( 'disabled', '' );
+      }
+    } else {
+      this.removeAttribute( 'disabled' );
+    }
+  }  
   
   get era() {
     if( this.hasAttribute( 'era' ) ) {

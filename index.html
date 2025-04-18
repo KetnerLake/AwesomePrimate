@@ -11,35 +11,16 @@
     <link href="./img/ape.svg" rel="icon" type="image/svg+xml">
     <link href="./styles/ape.css" rel="stylesheet">
 
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> -->
-
-    <style>
-      /*      
-      :root {
-        --amber: #ffc53d;
-        --amber-a1: rgba( 0, 0, 128, 0.008 );
-        --amber-a2: rgba( 0, 0, 128, 0.030 );
-        --amber-a3: rgba( 0, 0, 128, 0.070 );
-        --amber-a4: rgba( 0, 0, 128, 0.118 );
-        --amber-a5: rgba( 0, 0, 128, 0.176 );
-        --amber-a6: rgba( 0, 0, 128, 0.243 );
-        --amber-a7: rgba( 0, 0, 128, 0.330 );
-        --amber-a8: rgba( 0, 0, 128, 0.447 );
-        --amber-a9: rgba( 0, 0, 128, 0.757 );
-        --amber-a10: rgba( 0, 0, 128, 0.800 );
-        --amber-a11: rgba( 0, 0, 128, 0.773 );
-        --amber-a12: rgba( 0, 0, 128, 0.880 );
-      }
-      */
-    </style>
-
   </head>
   <body>
 
-    <ape-box direction="column">
+    <ape-box direction="column" label="Group">
+      <ape-label slot="prefix">Extra</ape-label>
       <ape-format-date></ape-format-date>      
-      <ape-icon name="settings"></ape-icon>
+      <ape-icon filled kind="success" name="settings" weight="200"></ape-icon>
       <ape-label>Label</ape-label>      
+      <ape-label monospace slot="suffix">After</ape-label>
+      <ape-color-area></ape-color-area>
     </ape-box>
 
     <script src="./components/ape.js" type="module"></script>

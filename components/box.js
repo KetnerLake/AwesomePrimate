@@ -13,33 +13,33 @@ export default class PrimateBox extends HTMLElement {
           position: relative;
         }
         
-        :host( [center] ) div {
+        :host( [center] ) div[part=box] {
           align-items: center;
         }
 
-        :host( [direction=column] ) div {
+        :host( [direction=column] ) div[part=box] {
           flex-direction: column;
         }
-        :host( [direction=column-reverse] ) div {
+        :host( [direction=column-reverse] ) div[part=box] {
           flex-direction: column-reverse;
         }        
-        :host( [direction=row-reverse] ) div {
+        :host( [direction=row-reverse] ) div[part=box] {
           flex-direction: row-reverse;
         }             
 
-        :host( [gap=xs] ) div {
+        :host( [gap=xs] ) div[part=box] {
           gap: 2px;
         }
-        :host( [gap=s] ) div {
+        :host( [gap=s] ) div[part=box] {
           gap: 4px;
         }       
-        :host( [gap=m] ) div {
+        :host( [gap=m] ) div[part=box] {
           gap: 8px;
         }       
-        :host( [gap=l] ) div {
+        :host( [gap=l] ) div[part=box] {
           gap: 16px;
         }        
-        :host( [gap=xl] ) div {
+        :host( [gap=xl] ) div[part=box] {
           gap: 32px;
         }             
         
@@ -52,7 +52,7 @@ export default class PrimateBox extends HTMLElement {
           display: none;
         }
 
-        :host( [justify] ) div {
+        :host( [justify] ) div[part=box] {
           justify-content: center;
         }
         
@@ -60,18 +60,47 @@ export default class PrimateBox extends HTMLElement {
           display: none;
         }
 
-        div {
+        ape-label {
+          flex-basis: 0;
+          flex-grow: 1;
+        }
+
+        div[part=box] {
           box-sizing: border-box;
           display: flex;
           flex-direction: row;        
           height: 100%;
           width: 100%;
         }
+
+        div[part=group] {
+          align-items: center;
+          box-sizing: border-box;
+          display: flex;
+          flex-direction: row;    
+          width: 100%;    
+        }        
+
+        :host( [card] ) div[part=box] {
+          background: var( --box-background, #ffffff );
+          border-color: var( --box-border-color, #161616 );
+          border-style: var( --box-border-style, solid );
+          border-width: var( --box-border-width, 1px );
+          border-radius: var( --box-border-radius, 4px );
+        }
+
+        :host( [fill] ) div[part=box] { 
+          background: var( --box-background, #ffffff );
+        }        
       </style>
-      <ape-label exportparts="content" part="label"></ape-label>
+      <div part="group">
+        <ape-label exportparts="content" part="label"></ape-label>      
+        <slot name="prefix"></slot>
+      </div>
       <div part="box">
         <slot></slot>
       </div>
+      <slot name="suffix"></slot>
     `;
 
     // Root
@@ -84,7 +113,12 @@ export default class PrimateBox extends HTMLElement {
 
   // When attributes change
   _render() {
+    this.$label.disabled = this.disabled;
     this.$label.textContent = this.label === null ? '' : this.label;
+
+    for( let c = 0; c < this.children.length; c++ ) {
+      this.children[c].disabled = this.disabled;
+    }
   }
 
   // Promote properties
@@ -99,8 +133,11 @@ export default class PrimateBox extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'card' );            
     this._upgrade( 'center' );      
     this._upgrade( 'direction' );      
+    this._upgrade( 'disabled' );        
+    this._upgrade( 'fill' );        
     this._upgrade( 'gap' );        
     this._upgrade( 'grow' );            
     this._upgrade( 'hidden' );  
@@ -112,8 +149,11 @@ export default class PrimateBox extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'card',  
       'center',
       'direction',
+      'disabled',
+      'fill',
       'gap',
       'grow',
       'hidden',      
@@ -131,6 +171,26 @@ export default class PrimateBox extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get card() {
+    return this.hasAttribute( 'card' );
+  }
+
+  set card( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'card' );
+      } else {
+        this.setAttribute( 'card', '' );
+      }
+    } else {
+      this.removeAttribute( 'card' );
+    }
+  }
+
   get center() {
     return this.hasAttribute( 'center' );
   }
@@ -164,6 +224,46 @@ export default class PrimateBox extends HTMLElement {
       this.setAttribute( 'direction', value );
     } else {
       this.removeAttribute( 'direction' );
+    }
+  }  
+
+  get disabled() {
+    return this.hasAttribute( 'disabled' );
+  }
+
+  set disabled( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'disabled' );
+      } else {
+        this.setAttribute( 'disabled', '' );
+      }
+    } else {
+      this.removeAttribute( 'disabled' );
+    }
+  }  
+
+  get fill() {
+    return this.hasAttribute( 'fill' );
+  }
+
+  set fill( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'fill' );
+      } else {
+        this.setAttribute( 'fill', '' );
+      }
+    } else {
+      this.removeAttribute( 'fill' );
     }
   }  
 

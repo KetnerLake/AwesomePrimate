@@ -28,6 +28,7 @@ export default class PrimateStack extends HTMLElement {
     const index = this.selectedIndex === null ? 0 : this.selectedIndex;
 
     for( let c = 0; c < this.children.length; c++ ) {
+      this.children[c].disabled = this.disabled;
       this.children[c].hidden = index === c ? false : true;
     }
   }
@@ -44,6 +45,7 @@ export default class PrimateStack extends HTMLElement {
 
   // Setup
   connectedCallback() {
+    this._upgrade( 'disabled' );        
     this._upgrade( 'hidden' );    
     this._upgrade( 'selectedIndex' );        
     this._render();
@@ -52,6 +54,7 @@ export default class PrimateStack extends HTMLElement {
   // Watched attributes
   static get observedAttributes() {
     return [
+      'disabled',
       'hidden',
       'selected-index'
     ];
@@ -66,6 +69,26 @@ export default class PrimateStack extends HTMLElement {
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get disabled() {
+    return this.hasAttribute( 'disabled' );
+  }
+
+  set disabled( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'disabled' );
+      } else {
+        this.setAttribute( 'disabled', '' );
+      }
+    } else {
+      this.removeAttribute( 'disabled' );
+    }
+  }
+
   get hidden() {
     return this.hasAttribute( 'hidden' );
   }
