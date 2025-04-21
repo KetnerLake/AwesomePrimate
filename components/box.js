@@ -87,6 +87,7 @@ export default class PrimateBox extends HTMLElement {
           border-style: var( --box-border-style, solid );
           border-width: var( --box-border-width, 1px );
           border-radius: var( --box-border-radius, 4px );
+          overflow: hidden;
         }
 
         :host( [fill] ) div[part=box] { 
@@ -117,7 +118,9 @@ export default class PrimateBox extends HTMLElement {
     this.$label.textContent = this.label === null ? '' : this.label;
 
     for( let c = 0; c < this.children.length; c++ ) {
-      this.children[c].disabled = this.disabled;
+      if( !this.children[c].hasAttribute( 'disabled' ) ) {
+        this.children[c].disabled = this.disabled;        
+      } 
     }
   }
 

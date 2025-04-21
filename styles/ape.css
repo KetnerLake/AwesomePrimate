@@ -20,3 +20,13 @@
   font-family: 'Material Symbols Outlined';
   src: url( '../fonts/Material Symbols/MaterialSymbolsOutlined-VariableFont_FILL,GRAD,opsz,wght.ttf' );
 }
+
+ape-link::part( external ) {
+  --icon-color: #0f62fe;
+  --icon-cursor: pointer;
+}
+
+ape-link[disabled]::part( external ) {
+  --icon-color: #16161640;
+  --icon-cursor: not-allowed;
+}
