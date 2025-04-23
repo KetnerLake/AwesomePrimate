@@ -20,10 +20,10 @@ export default class PrimateLink extends HTMLElement {
           color: var( --link-color, #0f62fe );
           cursor: var( --link-cursor, pointer );
           font-family: 'IBM Plex Sans', sans-serif;
-          font-size: var( --link-font-size, 14px );
+          font-size: var( --link-font-size, 16px );
           font-style: normal;
           font-weight: var( --link-font-weight, 400 );
-          line-height: var( --link-line-height, 18px );
+          line-height: var( --link-line-height, 28px );
           margin: 0;
           padding: 0;
           text-align: var( --link-text-align, left );
@@ -57,31 +57,56 @@ export default class PrimateLink extends HTMLElement {
           text-underline-offset: var( --link-text-underline-offset, 4px );          
         }
 
+        :host( [size=2xs] ) a {
+          font-size: 10px;
+        }
         :host( [size=xs] ) a {
           font-size: 12px;
-          line-height: 16px;
         }
         :host( [size=s] ) a {
           font-size: 14px;
-          line-height: 18px;
         }
         :host( [size=m] ) a {
           font-size: 16px;
-          line-height: 20px;
         }        
         :host( [size=l] ) a {
-          font-size: 18px;
-          line-height: 22px;
+          font-size: 20px;
         }        
         :host( [size=xl] ) a {
           font-size: 24px;
-          line-height: 30px;
         }
-        :host( [size=heading] ) a {
-          font-size: 24px;
-          line-height: 32px;
-        }                
+        :host( [size=2xl] ) a {
+          font-size: 36px;
+        }        
+        :host( [size=3xl] ) a {
+          font-size: 48px;
+        }        
+        :host( [size=4xl] ) a {
+          font-size: 72px;
+        }                        
 
+        :host( [line=denser] ) a {
+          line-height: 16px;
+        }
+        :host( [line=dense] ) a {
+          line-height: 22px;
+        }        
+        :host( [line=normal] ) a {
+          line-height: 28px;
+        }                
+        :host( [line=loose] ) a {
+          line-height: 36px;
+        }                  
+        :host( [line=looser] ) a {
+          line-height: 42px;
+        }
+
+        :host( [weight=light] ) a {
+          font-weight: 300;
+        }        
+        :host( [weight=normal] ) a {
+          font-weight: 400;
+        }
         :host( [weight=bold] ) a {
           font-weight: 600;
         }
@@ -137,7 +162,8 @@ export default class PrimateLink extends HTMLElement {
     this._upgrade( 'href' );
     this._upgrade( 'icon' );    
     this._upgrade( 'inline' );
-    this._upgrade( 'kind' );    
+    this._upgrade( 'kind' );  
+    this._upgrade( 'line' );      
     this._upgrade( 'size' );        
     this._upgrade( 'text' );        
     this._upgrade( 'weight' );        
@@ -154,6 +180,7 @@ export default class PrimateLink extends HTMLElement {
       'icon',
       'inline',
       'kind',
+      'line',
       'size',
       'text',
       'weight'
@@ -295,7 +322,23 @@ export default class PrimateLink extends HTMLElement {
     } else {
       this.removeAttribute( 'kind' );
     }
-  }         
+  }
+  
+  get line() {
+    if( this.hasAttribute( 'line' ) ) {
+      return this.getAttribute( 'line' );
+    }
+
+    return null;
+  }
+
+  set line( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'line', value );
+    } else {
+      this.removeAttribute( 'line' );
+    }
+  }  
 
   get size() {
     if( this.hasAttribute( 'size' ) ) {

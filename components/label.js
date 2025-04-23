@@ -20,10 +20,10 @@ export default class PrimateLabel extends HTMLElement {
           color: var( --label-color, #161616 );
           cursor: var( --label-cursor, default );
           font-family: 'IBM Plex Sans', sans-serif;
-          font-size: var( --label-font-size, 14px );
+          font-size: var( --label-font-size, 16px );
           font-style: normal;
           font-weight: var( --label-font-weight, 400 );
-          line-height: var( --label-line-height, 18px );
+          line-height: var( --label-line-height, 28px );
           margin: 0;
           padding: 0;
           text-align: var( --label-text-align, left );
@@ -66,31 +66,56 @@ export default class PrimateLabel extends HTMLElement {
           color: var( --label-disabled-color, #16161640 );
         }
 
+        :host( [size=2xs] ) p {
+          font-size: 10px;
+        }
         :host( [size=xs] ) p {
           font-size: 12px;
-          line-height: 16px;
         }
         :host( [size=s] ) p {
           font-size: 14px;
-          line-height: 18px;
         }
         :host( [size=m] ) p {
           font-size: 16px;
-          line-height: 20px;
         }        
         :host( [size=l] ) p {
-          font-size: 18px;
-          line-height: 22px;
+          font-size: 20px;
         }        
         :host( [size=xl] ) p {
           font-size: 24px;
-          line-height: 30px;
         }
-        :host( [size=heading] ) p {
-          font-size: 24px;
-          line-height: 32px;
-        }                
+        :host( [size=2xl] ) p {
+          font-size: 36px;
+        }        
+        :host( [size=3xl] ) p {
+          font-size: 48px;
+        }        
+        :host( [size=4xl] ) p {
+          font-size: 72px;
+        }                        
 
+        :host( [line=denser] ) p {
+          line-height: 16px;
+        }
+        :host( [line=dense] ) p {
+          line-height: 22px;
+        }        
+        :host( [line=normal] ) p {
+          line-height: 28px;
+        }                
+        :host( [line=loose] ) p {
+          line-height: 36px;
+        }                  
+        :host( [line=looser] ) p {
+          line-height: 42px;
+        }
+
+        :host( [weight=light] ) p {
+          font-weight: 300;
+        }        
+        :host( [weight=normal] ) p {
+          font-weight: 400;
+        }
         :host( [weight=bold] ) p {
           font-weight: 600;
         }
@@ -148,6 +173,7 @@ export default class PrimateLabel extends HTMLElement {
     this._upgrade( 'disabled' );            
     this._upgrade( 'hidden' );    
     this._upgrade( 'kind' );      
+    this._upgrade( 'line' );          
     this._upgrade( 'monospace' );          
     this._upgrade( 'size' );  
     this._upgrade( 'text' );              
@@ -163,6 +189,7 @@ export default class PrimateLabel extends HTMLElement {
       'disabled',
       'hidden',
       'kind',
+      'line',
       'monospace',
       'size',
       'text',
@@ -254,7 +281,23 @@ export default class PrimateLabel extends HTMLElement {
     } else {
       this.removeAttribute( 'kind' );
     }
-  }         
+  }
+  
+  get line() {
+    if( this.hasAttribute( 'line' ) ) {
+      return this.getAttribute( 'line' );
+    }
+
+    return null;
+  }
+
+  set line( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'line', value );
+    } else {
+      this.removeAttribute( 'line' );
+    }
+  }  
 
   get monospace() {
     return this.hasAttribute( 'monospace' );
