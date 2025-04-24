@@ -1,0 +1,38 @@
+0 0 0 3px #0ea5e966
+
+caret
+circle
+disabled
+grow
+hidden
+kind
+label
+outline
+pill
+size
+
+captionLayout (label, dropdown, dropdown-months, dropdown-years)
+  - startMonth
+  - endMonth
+defaultMonth  
+✅ fixedWeeks (6)
+✅  * To avoid resizing
+✅ footer (slot)
+✅ hideWeekdays (M, T, etc.)
+numberOfMonths (1)
+pagedNavigation (jump numberOfMonths vs 1)
+✅ showOutsideDays (30, 31, 1, 2, 3, etc.)
+✅ showWeekNumber
+animate (months)
+✅ disabledNavigation
+✅ hideNavigation
+startOfWeek
+✅ name
+✅ value
+✅ onDateChange
+➕ readOnly
+➕ size
+➕ onWeekChange
+➕ valueAsDate
+isDateDisabled
+isDateFilled

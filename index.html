@@ -11,20 +11,53 @@
     <link href="./img/ape.svg" rel="icon" type="image/svg+xml">
     <link href="./styles/ape.css" rel="stylesheet">
 
+    <style>
+      ape-calendar button {
+        align-items: center;
+        appearance: none;
+        background: none;
+        background: #2f323f;
+        border: none;
+        border-radius: 4px;
+        box-sizing: border-box;
+        color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        height: 43px;
+        justify-content: center;
+        margin: 0;
+        padding: 0 16px 0 16px;
+      }
+    </style>
+
   </head>
   <body>
 
-    <ape-box direction="column" label="Group">
-      <ape-label slot="prefix">Extra</ape-label>
-      <ape-format-date></ape-format-date>      
-      <ape-icon filled name="cancel"></ape-icon>
-      <ape-label>Label</ape-label>      
-      <ape-label monospace slot="suffix">After</ape-label>
-      <ape-color-area></ape-color-area>
-      <ape-link>Link</ape-link>
-    </ape-box>
+    <ape-calendar fixed-weeks show-outside-days>
+      <button style="margin: 0 auto;" type="button">Today</button>
+    </ape-calendar>
 
     <script src="./components/ape.js" type="module"></script>
+
+    <script>
+      const calendar = document.querySelector( 'ape-calendar' );
+      calendar.isDateDisabled = ( date ) => {
+        if( date.getDay() === 0 || date.getDay() === 6 ) return true;
+        return false;
+      };
+      calendar.addEventListener( 'ape-week', ( evt ) => console.log( 'WEEK: ' + evt.detail.value ) );
+      calendar.addEventListener( 'ape-change', ( evt ) => {
+        console.log( evt.detail );
+      } );
+
+      const today = document.querySelector( 'ape-calendar button' );
+      today.addEventListener( 'click', () => {
+        console.log( 'TODAY' );
+      } );
+    </script>
 
   </body>
 </html>

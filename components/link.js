@@ -17,7 +17,7 @@ export default class PrimateLink extends HTMLElement {
 
         a {
           box-sizing: border-box;
-          color: var( --link-color, #0f62fe );
+          color: var( --link-color, #0284c7 );
           cursor: var( --link-cursor, pointer );
           font-family: 'IBM Plex Sans', sans-serif;
           font-size: var( --link-font-size, 16px );
