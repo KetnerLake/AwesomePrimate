@@ -16,115 +16,6 @@ export default class PrimateCalendar extends HTMLElement {
           display: none;
         } 
 
-        article {
-          box-sizing: border-box;
-          display: grid;
-          grid-template-columns: repeat( 7, 1fr );
-          grid-column-gap: 0px;
-          grid-row-gap: 0px;
-          margin: 0;
-          padding: 0;      
-        }
-
-        article button {
-          appearance: none;
-          background: none;
-          border: none;
-          border-radius: 4px;
-          box-sizing: border-box;
-          color: #2f323f;
-          cursor: pointer;
-          display: flex;
-          flex-direction: column;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 16px;
-          font-weight: 400;
-          height: 43px;
-          justify-content: center;
-          margin: 0;
-          outline: solid 3px transparent;
-          outline-offset: 1px;
-          padding: 0;      
-          text-align: center;    
-          width: 43px;
-        }
-
-        article button:hover {
-          background: #f1f2f3;
-        }
-
-        article button.outside {
-          color: #9194a2;
-          visibility: hidden;
-        }
-
-        article button[disabled] {
-          color: #9194a2;
-          cursor: not-allowed;
-        }
-
-        article button[disabled]:not( .readonly ):hover {
-          background: transparent;
-        } 
-
-        article button[disabled].readonly {
-          cursor: default;
-        }
-
-        article button.today {
-          background: #f1f2f3;
-        }
-
-        article button:not( .readonly ).selected {        
-          background: #2f323f;
-          color: #ffffff;
-        }
-
-        aside {
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;          
-        }
-
-        aside button {
-          align-items: center;
-          appearance: none;
-          background: none;
-          border: none;
-          border-radius: 4px;
-          box-sizing: border-box;
-          color: #9194a2;
-          cursor: pointer;
-          display: flex;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 400;
-          height: 43px;
-          justify-content: center;
-          margin: 0;
-          padding: 0;
-          text-align: center;
-          width: 43px;      
-        }
-
-        aside button:hover {
-          background: #f1f2f3;
-        }        
-
-        div {
-          box-sizing: border-box;
-          display: flex;
-        }
-
-        div[part=calendar] {
-          flex-direction: row;
-        }
-
-        div[part=month] {
-          flex-direction: column;
-        }
-
         header {
           align-items: center;
           box-sizing: border-box;
@@ -139,7 +30,7 @@ export default class PrimateCalendar extends HTMLElement {
           align-items: center;
           background: none;
           border: none;
-          border: solid 1px #9194a2;
+          border: solid 1px #e4e5e9;
           border-radius: 4px;
           box-sizing: border-box;
           color: #9194a2;
@@ -163,7 +54,7 @@ export default class PrimateCalendar extends HTMLElement {
         }
 
         header button[disabled] {
-          cursor: not-allowed;
+          cursor: default;
         }
 
         header button:hover[disabled] {
@@ -171,107 +62,49 @@ export default class PrimateCalendar extends HTMLElement {
         }        
 
         header p {
+          box-sizing: border-box;
           flex-basis: 0;
           flex-grow: 1;
+          font-size: 16px;
           font-weight: 600;
+          margin: 0;
+          padding: 0;
           text-align: center;
         }
 
         i {
           box-sizing: border-box;
-          color: var( --icon-color, #9194a2 );
-          cursor: var( --icon-cursor, pointer );
+          color: #9194a2;
+          cursor: pointer;
           direction: ltr;
           display: flex;
           font-family: 'Material Symbols Outlined';
-          font-size: var( --icon-size, 20px );
+          font-size: 20px;
           font-style: normal;
           font-weight: normal;
-          height: var( --icon-size, 20px );
+          height: 20px;
           letter-spacing: normal;
-          line-height: var( --icon-size, 20px );
+          line-height: 20px;
           margin: 0;
-          max-height: var( --icon-size, 20px );
-          max-width: var( --icon-size, 20px );
-          min-height: var( --icon-size, 20px );
-          min-width: var( --icon-size, 20px );
+          max-height: 20px;
+          max-width: 20px;
+          min-height: 20px;
+          min-width: 20px;
           padding: 0;
           text-align: center;
           text-rendering: optimizeLegibility;
           text-transform: none;
           white-space: nowrap;
-          width: var( --icon-size, 20px );
+          width: 20px;
           word-wrap: normal;          
         }
 
-        p {
-          box-sizing: border-box;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 16px;
-          font-weight: 400;
-          margin: 0;
-          padding: 0;
-        }
-
-        section {
-          align-items: center;
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: row;          
-          margin: 0;
-          padding: 0;
-        }
-
-        section p {
-          color: #9194a2;          
-          padding: 11px 0 11px 0;
-          text-align: center;         
-          width: 43px;
+        :host( [disabled-navigation] ) i {
+          cursor: default;
         }
 
         :host( [hide-navigation] ) header button {
           visibility: hidden;
-        }
-
-        :host( [hide-weekdays] ) section {
-          display: none;
-        }
-
-        :host( [read-only] ) article button:not( .outside ) {
-          color: #2f323f;
-          cursor: default;
-        }
-        :host( [read-only] ) article button:not( .today, .selected ):hover {
-          background: transparent;
-        }        
-        :host( [read-only] ) aside button:hover {
-          cursor: default;
-          background: transparent;
-        }        
-        :host( [read-only] ) aside button,
-
-        :host( [show-outside-days] ) article button.outside { 
-          visibility: visible;
-        }
-
-        :host( :not( [show-week-number] ) ) aside {
-          display: none;
-        }
-
-        :host( [size=s] ) article button,
-        :host( [size=sm] ) article button,        
-        :host( [size=small] ) article button {
-          font-size: 14px;
-          height: 33px;
-          width: 33px;
-        }
-
-        :host( [size=s] ) aside button,
-        :host( [size=sm] ) aside button,        
-        :host( [size=small] ) aside button {
-          font-size: 12px;
-          height: 33px;
-          width: 33px;
         }
 
         :host( [size=s] ) header button,
@@ -286,31 +119,7 @@ export default class PrimateCalendar extends HTMLElement {
         :host( [size=small] ) header p { 
           font-size: 14px;
         }                
-
-        :host( [size=s] ) section p,
-        :host( [size=sm] ) section p,
-        :host( [size=small] ) section p { 
-          font-size: 14px;
-          padding: 7px 0 7px 0;          
-          width: 33px;
-        }
         
-        :host( [size=l] ) article button,
-        :host( [size=lg] ) article button,        
-        :host( [size=large] ) article button {
-          font-size: 20px;
-          height: 56px;
-          width: 56px;
-        }
-
-        :host( [size=l] ) aside button,
-        :host( [size=lg] ) aside button,                
-        :host( [size=large] ) aside button {
-          font-size: 16px;
-          height: 56px;
-          width: 56px;
-        }        
-
         :host( [size=l] ) header button,
         :host( [size=lg] ) header button,
         :host( [size=large] ) header button { 
@@ -323,57 +132,27 @@ export default class PrimateCalendar extends HTMLElement {
         :host( [size=large] ) header p { 
           font-size: 20px;
         }                
-
-        :host( [size=l] ) section p,
-        :host( [size=lg] ) section p,
-        :host( [size=large] ) section p { 
-          font-size: 20px;
-          padding: 15px 0 15px 0;          
-          width: 56px;
-        }        
       </style>
       <header>
-        <button>
+        <button type="button">
           <i>chevron_left</i>
         </button>
         <p></p>
-        <button>
+        <button type="button">
           <i>chevron_right</i>
         </button>
       </header>      
-      <div part="calendar">
-        <aside></aside>
-        <div part="month">
-          <section>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>
-            <p></p>                                        
-            <p></p>                                                
-          </section>
-          <article></article>
-        </div>
-      </div>
+      <ape-month></ape-month>
       <slot></slot>              
     `;
-
-    // Private
-    this._disabled = null;
-
-    // Events
-    this.doDateClick = this.doDateClick.bind( this );
-    this.doWeekClick = this.doWeekClick.bind( this );    
 
     // Root
     this.attachShadow( {mode: 'open'} );
     this.shadowRoot.appendChild( template.content.cloneNode( true ) );
 
     // Elements
-    this.$aside = this.shadowRoot.querySelector( 'aside' );
     this.$label = this.shadowRoot.querySelector( 'header p' );
-    this.$month = this.shadowRoot.querySelector( 'article' );
+    this.$month = this.shadowRoot.querySelector( 'ape-month' );
     this.$previous = this.shadowRoot.querySelector( 'header button:nth-of-type( 1 )' );
     this.$previous.addEventListener( 'click', () => {
       let display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;  
@@ -416,204 +195,33 @@ export default class PrimateCalendar extends HTMLElement {
         }
       } ) );      
     } );
-    this.$week = this.shadowRoot.querySelector( 'section' );
   }
 
-  // Month is in the range 1 - 12
-  // https://stackoverflow.com/questions/2483719/get-weeks-in-month-through-javascript
-  weekCount( year, month, start = 0 ) {
-    const firstDayOfWeek = start || 0;
-    const firstOfMonth = new Date( year, month - 1, 1 );
-    const lastOfMonth = new Date( year, month, 0 );
-    const numberOfDaysInMonth = lastOfMonth.getDate();
-    const firstWeekDay = ( firstOfMonth.getDay() - firstDayOfWeek + 7 ) % 7;
-    const used = firstWeekDay + numberOfDaysInMonth;
-
-    return Math.ceil( used / 7 );
-  }
-
-  // Week of the year
-  // https://stackoverflow.com/questions/6117814/get-week-of-year-in-javascript-like-in-php/6117889#6117889
-  weekNumber( date ) {
-    date = new Date( Date.UTC( date.getFullYear(), date.getMonth(), date.getDate() ) );
-    date.setUTCDate( date.getUTCDate() + 4 - ( date.getUTCDay() || 7 ) );
-    const yearStart = new Date( Date.UTC( date.getUTCFullYear(), 0, 1 ) );
-    return Math.ceil( ( ( ( date - yearStart ) / 86400000 ) + 1 ) / 7 );
-  } 
-
-  doDateClick( evt ) {
-    const value = new Date(
-      parseInt( evt.currentTarget.getAttribute( 'data-year' ) ),
-      parseInt( evt.currentTarget.getAttribute( 'data-month' ) ),
-      parseInt( evt.currentTarget.getAttribute( 'data-date' ) )
-    );
-
-    if( this.toggle ) {
-      if( this.value === null ) {
-        this.valueAsDate = value;
-      } else {
-        this.value = null;
-      }
-    } else {
-      this.valueAsDate = value;
-    }
-
-    this.dispatchEvent( new CustomEvent( 'ape-change', {
-      detail: {
-        value: this.valueAsDate
-      } 
-    } ) );
-  }
-
-  doWeekClick( evt ) {
-    const week = parseInt( evt.currentTarget.getAttribute( 'data-week' ) );
-    
-    this.dispatchEvent( new CustomEvent( 'ape-week', {
-      detail: {
-        value: week
-      } 
-    } ) );    
+  // Month label per locale
+  _updateLabel() {
+    this.$label.textContent = new Intl.DateTimeFormat( navigator.language, {
+      month: 'long',
+      year: 'numeric'
+    } ).format( this.defaultAsDate );
   }
 
   // When things change
   _render() {
     const display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;
-    const value = this.valueAsDate;
-    const today = new Date();    
-    const weeks = this.fixedWeeks ? 6 : this.weekCount( display.getFullYear(), display.getMonth() + 1 );
-
-    let calendar = new Date( 
-      display.getFullYear(),
-      display.getMonth(),
-      1
-    );
-
-    const aside = this.weekNumber( calendar );
-
-    // Back to first day of the week
-    calendar.setDate( calendar.getDate() - calendar.getDay() );    
-
-    // Weekdays per locale
-    const weekday = new Intl.DateTimeFormat( navigator.language, {
-      weekday: 'narrow'
-    } );
-
-    for( let c = 0; c < this.$week.children.length; c++ ) {
-      this.$week.children[c].textContent = weekday.format( calendar );
-      calendar.setDate( calendar.getDate() + 1 );
-    }
-
-    // Reset calendar
-    calendar = new Date( 
-      display.getFullYear(),
-      display.getMonth(),
-      1
-    );    
-    calendar.setDate( calendar.getDate() - calendar.getDay() );
-
-    // Remove to match days in month
-    while( this.$aside.children.length > weeks ) {
-      this.$aside.children[0].removeEventListener( 'click', this.doWeekClick );
-      this.$aside.children[0].remove();
-    }
-
-    while( this.$month.children.length > ( weeks * 7 ) ) {
-      this.$month.children[0].removeEventListener( 'click', this.doDateClick );
-      this.$month.children[0].remove();
-    }
-
-    // Add to match days in month
-    while( this.$aside.children.length < weeks ) {
-      const button = document.createElement( 'button' );
-      button.addEventListener( 'click', this.doWeekClick );
-      button.type = 'button';
-      this.$aside.appendChild( button );
-    }
-
-    while( this.$month.children.length < ( weeks * 7 ) ) {
-      const button = document.createElement( 'button' );
-      button.addEventListener( 'click', this.doDateClick );
-      button.type = 'button';
-      this.$month.appendChild( button );
-    }
-
+    
     // Navigation
     this.$previous.disabled = this.disabledNavigation;
     this.$next.disabled = this.disabledNavigation;
 
-    // Month label per locale
-    this.$label.textContent = new Intl.DateTimeFormat( navigator.language, {
-      month: 'long',
-      year: 'numeric'
-    } ).format( display );
+    this._updateLabel();
 
-    // Populate weeks
-    for( let c = 0; c < this.$aside.children.length; c++ ) {
-      this.$aside.children[c].textContent = aside + c;
-      this.$aside.children[c].disabled = this.readOnly;
-      this.$aside.children[c].setAttribute( 'data-week', aside + c );
-    }
-
-    // Populate month
-    for( let c = 0; c < this.$month.children.length; c++ ) {      
-      this.$month.children[c].textContent = calendar.getDate();
-
-      if( this.readOnly ) {
-        this.$month.children[c].disabled = true;
-        this.$month.children[c].classList.add( 'readonly' );
-      } else {
-        if( this._disabled === null ) {
-          this.$month.children[c].disabled = false;        
-        } else {
-          this.$month.children[c].disabled = this._disabled( calendar );
-        }
-
-        this.$month.children[c].classList.remove( 'readonly' );        
-      }
-
-      this.$month.children[c].setAttribute( 'data-year', calendar.getFullYear() );
-      this.$month.children[c].setAttribute( 'data-month', calendar.getMonth() );
-      this.$month.children[c].setAttribute( 'data-date', calendar.getDate() );
-
-      // Selection
-      if( value === null ) {
-        this.$month.children[c].classList.remove( 'selected' );
-      } else {
-        if(
-          calendar.getFullYear() === value.getFullYear() &&
-          calendar.getMonth() === value.getMonth() &&
-          calendar.getDate() === value.getDate() &&
-          calendar.getMonth() === value.getMonth()
-        ) {
-          this.$month.children[c].classList.add( 'selected' );
-        } else {
-          this.$month.children[c].classList.remove( 'selected' );
-        }
-      }      
-
-      // Outside
-      if(
-        calendar.getFullYear() === display.getFullYear() &&
-        calendar.getMonth() === display.getMonth()
-      ) {
-        this.$month.children[c].classList.remove( 'outside' );
-      } else {
-        this.$month.children[c].classList.add( 'outside' );
-      }
-
-      // Today
-      if(
-        calendar.getFullYear() === today.getFullYear() &&
-        calendar.getMonth() === today.getMonth() &&
-        calendar.getDate() === today.getDate()
-      ) {
-        this.$month.children[c].classList.add( 'today' );
-      } else {
-        this.$month.children[c].classList.remove( 'today' );
-      }
-
-      calendar.setDate( calendar.getDate() + 1 );            
-    }
+    this.$month.defaultMonth = this.defaultMonth;
+    this.$month.fixedWeeks = this.fixedWeeks;
+    this.$month.showOutsideDays = this.showOutsideDays;
+    this.$month.showWeekNumber = this.showWeekNumber;
+    this.$month.size = this.size;
+    this.$month.toggleSelection = this.toggleSelection;
+    this.$month.value = this.value;
   }
 
   // Properties set before module loaded
@@ -631,15 +239,16 @@ export default class PrimateCalendar extends HTMLElement {
     this._upgrade( 'defaultAsDate' );
     this._upgrade( 'disabledNavigation' );
     this._upgrade( 'fixedWeeks' );    
+    this._upgrade( 'hidden' );    
     this._upgrade( 'hideNavigation' );
     this._upgrade( 'hideWeekdays' );
     this._upgrade( 'isDateDisabled' );
+    this._upgrade( 'isDateHidden' );
     this._upgrade( 'name' );
-    this._upgrade( 'readOnly' );
     this._upgrade( 'showOutsideDays' );
     this._upgrade( 'showWeekNumber' );
     this._upgrade( 'size' );
-    this._upgrade( 'toggle' );
+    this._upgrade( 'toggleSelection' );
     this._upgrade( 'value' );                     
     this._upgrade( 'valueAsDate' );
     this._render();
@@ -651,14 +260,14 @@ export default class PrimateCalendar extends HTMLElement {
       'default-month',
       'disabled-navigation',
       'fixed-weeks',
+      'hidden',
       'hide-navigation',
       'hide-weekdays',
       'name',
-      'read-only',
       'show-outside-days',
       'show-week-number',
       'size',
-      'toggle',
+      'toggle-selection',
       'value'
     ];
   }
@@ -673,27 +282,36 @@ export default class PrimateCalendar extends HTMLElement {
   // Not reflected
   // Array, Date, Object, null
   get defaultAsDate() {
-    return this.defaultMonth === null ? null : new Date( Date.parse( this.defaultMonth ) );
+    return this.$month.defaultAsDate;
   }
   
   set defaultAsDate( date ) {
-    this.defaultMonth = date === null ? null : date.toISOString();
+    this.$month.defaultAsDate = date;
+    this._updateLabel();
   }
 
   get isDateDisabled() {
-    return this._disabled;
+    return this.$month.isDateDisabled;
   }
 
   set isDateDisabled( func ) {
-    this._disabled = func;
+    this.$month.isDateDisabled = func;
+  }
+
+  get isDateHidden() {
+    return this.$month.isDateHidden;
+  }
+
+  set isDateHidden( func ) {
+    this.$month.isDateHidden = func;
   }
 
   get valueAsDate() {
-    return this.value === null ? null : new Date( Date.parse( this.value ) );
+    return this.$month.valueAsDate;
   }
   
   set valueAsDate( date ) {
-    this.value = date === null ? null : date.toISOString();
+    this.$month.valueAsDate = date;
   }     
 
   // Attributes
@@ -755,6 +373,26 @@ export default class PrimateCalendar extends HTMLElement {
     }
   }
   
+  get hidden() {
+    return this.hasAttribute( 'hidden' );
+  }
+
+  set hidden( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'hidden' );
+      } else {
+        this.setAttribute( 'hidden', '' );
+      }
+    } else {
+      this.removeAttribute( 'hidden' );
+    }
+  }
+
   get hideNavigation() {
     return this.hasAttribute( 'hide-navigation' );
   }
@@ -810,26 +448,6 @@ export default class PrimateCalendar extends HTMLElement {
       this.removeAttribute( 'name' );
     }
   }     
-
-  get readOnly() {
-    return this.hasAttribute( 'read-only' );
-  }
-
-  set readOnly( value ) {
-    if( value !== null ) {
-      if( typeof value === 'boolean' ) {
-        value = value.toString();
-      }
-
-      if( value === 'false' ) {
-        this.removeAttribute( 'read-only' );
-      } else {
-        this.setAttribute( 'read-only', '' );
-      }
-    } else {
-      this.removeAttribute( 'read-only' );
-    }
-  }  
 
   get showOutsideDays() {
     return this.hasAttribute( 'show-outside-days' );
@@ -887,23 +505,23 @@ export default class PrimateCalendar extends HTMLElement {
     }
   }  
 
-  get toggle() {
-    return this.hasAttribute( 'toggle' );
+  get toggleSelection() {
+    return this.hasAttribute( 'toggle-selection' );
   }
 
-  set toggle( value ) {
+  set toggleSelection( value ) {
     if( value !== null ) {
       if( typeof value === 'boolean' ) {
         value = value.toString();
       }
 
       if( value === 'false' ) {
-        this.removeAttribute( 'toggle' );
+        this.removeAttribute( 'toggle-selection' );
       } else {
-        this.setAttribute( 'toggle', '' );
+        this.setAttribute( 'toggle-selection', '' );
       }
     } else {
-      this.removeAttribute( 'toggle' );
+      this.removeAttribute( 'toggle-selection' );
     }
   }
   

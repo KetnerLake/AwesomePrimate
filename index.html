@@ -11,6 +11,10 @@
     <link href="./img/ape.svg" rel="icon" type="image/svg+xml">
     <link href="./styles/ape.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://early.webawesome.com/webawesome@3.0.0-alpha.12/dist/styles/themes/default.css" />
+    <link rel="stylesheet" href="https://early.webawesome.com/webawesome@3.0.0-alpha.12/dist/styles/webawesome.css" />
+    <script type="module" src="https://early.webawesome.com/webawesome@3.0.0-alpha.12/dist/webawesome.loader.js"></script>
+    
     <style>
       ape-calendar button {
         align-items: center;
@@ -36,7 +40,9 @@
   </head>
   <body>
 
-    <ape-calendar>
+    <ape-month fixed-weeks show-outside-days></ape-month>
+
+    <ape-calendar fixed-weeks show-outside-days>
       <button type="button">Today</button>
     </ape-calendar>
 
@@ -48,11 +54,29 @@
         if( date.getDay() === 0 || date.getDay() === 6 ) return true;
         return false;
       };
+      calendar.isDateHidden = ( date ) => {
+        if( date.getDay() === 5 && date.getDate() === 13 ) return true;
+        return false;
+      };            
       // calendar.defaultAsDate = new Date( 2004, 5, 4 );      
       calendar.addEventListener( 'ape-week', ( evt ) => console.log( 'WEEK: ' + evt.detail.value ) );
       calendar.addEventListener( 'ape-change', ( evt ) => {
-        console.log( evt.detail.value );
+        console.log( evt.detail );
       } );
+
+      const month = document.querySelector( 'ape-month' );
+      month.addEventListener( 'ape-change', ( evt ) => {
+        console.log( evt.detail );
+      } );            
+      month.isDateDisabled = ( date ) => {
+        if( date.getDay() === 0 || date.getDay() === 6 ) return true;
+        return false;
+      };
+      month.isDateHidden = ( date ) => {
+        if( date.getDay() === 5 && date.getDate() === 13 ) return true;
+        return false;
+      };      
+      // month.defaultAsDate = new Date( 2025, 5, 4 );
 
       const today = document.querySelector( 'ape-calendar button' );
       today.addEventListener( 'click', () => {
