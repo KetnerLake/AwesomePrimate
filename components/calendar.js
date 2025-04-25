@@ -58,7 +58,24 @@ export default class PrimateCalendar extends HTMLElement {
           visibility: hidden;
         }
 
-        article button.selected {        
+        article button[disabled] {
+          color: #9194a2;
+          cursor: not-allowed;
+        }
+
+        article button[disabled]:not( .readonly ):hover {
+          background: transparent;
+        } 
+
+        article button[disabled].readonly {
+          cursor: default;
+        }
+
+        article button.today {
+          background: #f1f2f3;
+        }
+
+        article button:not( .readonly ).selected {        
           background: #2f323f;
           color: #ffffff;
         }
@@ -145,11 +162,11 @@ export default class PrimateCalendar extends HTMLElement {
           outline: solid 3px #3e96ff;          
         }
 
-        header button:disabled {
+        header button[disabled] {
           cursor: not-allowed;
         }
 
-        header button:hover:disabled {
+        header button:hover[disabled] {
           background: transparent
         }        
 
@@ -220,13 +237,18 @@ export default class PrimateCalendar extends HTMLElement {
           display: none;
         }
 
-        :host( [read-only] ) aside button,
-        :host( [read-only] ) article button {
+        :host( [read-only] ) article button:not( .outside ) {
+          color: #2f323f;
           cursor: default;
         }
-        :host( [read-only] ) aside button:hover {
+        :host( [read-only] ) article button:not( .today, .selected ):hover {
           background: transparent;
-        }
+        }        
+        :host( [read-only] ) aside button:hover {
+          cursor: default;
+          background: transparent;
+        }        
+        :host( [read-only] ) aside button,
 
         :host( [show-outside-days] ) article button.outside { 
           visibility: visible;
@@ -309,8 +331,6 @@ export default class PrimateCalendar extends HTMLElement {
           padding: 15px 0 15px 0;          
           width: 56px;
         }        
-
-        /* TODO: Selected, today styles and events */
       </style>
       <header>
         <button>
@@ -340,7 +360,6 @@ export default class PrimateCalendar extends HTMLElement {
     `;
 
     // Private
-    this._display = new Date();
     this._disabled = null;
 
     // Events
@@ -357,75 +376,43 @@ export default class PrimateCalendar extends HTMLElement {
     this.$month = this.shadowRoot.querySelector( 'article' );
     this.$previous = this.shadowRoot.querySelector( 'header button:nth-of-type( 1 )' );
     this.$previous.addEventListener( 'click', () => {
-      let display = null;
-      const value = new Date();
-
-      if( this._display === null ) {
-        if( value === null ) {
-          display = new Date();
-        } else {
-          display = new Date( value.getTime() );
-        }
-      } else {
-        display = new Date( this._display.getTime() );
-      }    
-  
+      let display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;  
       let month = display.getMonth();
       let year = display.getFullYear();
   
       year = ( month === 0 ) ? year - 1 : year;
       month = ( month === 0 ) ? 11 : month - 1;
   
-      this._display = new Date(
-        year,
-        month,
-        display.getDate()
-      );
+      this.defaultAsDate = new Date( year, month, display.getDate() );
 
-      this._render();
-  
       this.dispatchEvent( new CustomEvent( 'aa-change', {
         detail: {
-          display: this._display,
+          display: this.displayAsDate,
           name: this.name,
-          value: value
+          value: this.valueAsDate
         }
       } ) );      
     } );
     this.$next = this.shadowRoot.querySelector( 'header button:nth-of-type( 2 )' );
     this.$next.addEventListener( 'click', () => {
-      let display = null;
-      const value = new Date();
-
-      if( this._display === null ) {
-        if( value === null ) {
-          display = new Date();
-        } else {
-          display = new Date( value.getTime() );          
-        }
-      } else {
-        display = new Date( this._display.getTime() );
-      }    
-  
+      let display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;
       let month = display.getMonth();
       let year = display.getFullYear();
   
       year = ( month === 11 ) ? year + 1 : year;
       month = ( month + 1 ) % 12;
   
-      this._display = new Date(
+      this.defaultAsDate = new Date(
         year,
         month,
         display.getDate()
       );
 
-      this._render();
-  
       this.dispatchEvent( new CustomEvent( 'aa-change', {
         detail: {
-          display: this._display,
+          display: this.defaultAsDate,
           name: this.name,
-          value: value
+          value: this.valueAsDate
         }
       } ) );      
     } );
@@ -461,11 +448,19 @@ export default class PrimateCalendar extends HTMLElement {
       parseInt( evt.currentTarget.getAttribute( 'data-date' ) )
     );
 
-    // this.valueAsDate = selected;
+    if( this.toggle ) {
+      if( this.value === null ) {
+        this.valueAsDate = value;
+      } else {
+        this.value = null;
+      }
+    } else {
+      this.valueAsDate = value;
+    }
 
     this.dispatchEvent( new CustomEvent( 'ape-change', {
       detail: {
-        value: value
+        value: this.valueAsDate
       } 
     } ) );
   }
@@ -482,13 +477,14 @@ export default class PrimateCalendar extends HTMLElement {
 
   // When things change
   _render() {
-    const value = new Date();
+    const display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;
+    const value = this.valueAsDate;
     const today = new Date();    
-    const weeks = this.fixedWeeks ? 6 : this.weekCount( this._display.getFullYear(), this._display.getMonth() + 1 );
+    const weeks = this.fixedWeeks ? 6 : this.weekCount( display.getFullYear(), display.getMonth() + 1 );
 
     let calendar = new Date( 
-      this._display.getFullYear(),
-      this._display.getMonth(),
+      display.getFullYear(),
+      display.getMonth(),
       1
     );
 
@@ -509,8 +505,8 @@ export default class PrimateCalendar extends HTMLElement {
 
     // Reset calendar
     calendar = new Date( 
-      this._display.getFullYear(),
-      this._display.getMonth(),
+      display.getFullYear(),
+      display.getMonth(),
       1
     );    
     calendar.setDate( calendar.getDate() - calendar.getDay() );
@@ -549,7 +545,7 @@ export default class PrimateCalendar extends HTMLElement {
     this.$label.textContent = new Intl.DateTimeFormat( navigator.language, {
       month: 'long',
       year: 'numeric'
-    } ).format( this._display );
+    } ).format( display );
 
     // Populate weeks
     for( let c = 0; c < this.$aside.children.length; c++ ) {
@@ -561,7 +557,20 @@ export default class PrimateCalendar extends HTMLElement {
     // Populate month
     for( let c = 0; c < this.$month.children.length; c++ ) {      
       this.$month.children[c].textContent = calendar.getDate();
-      this.$month.children[c].disabled = this.readOnly;
+
+      if( this.readOnly ) {
+        this.$month.children[c].disabled = true;
+        this.$month.children[c].classList.add( 'readonly' );
+      } else {
+        if( this._disabled === null ) {
+          this.$month.children[c].disabled = false;        
+        } else {
+          this.$month.children[c].disabled = this._disabled( calendar );
+        }
+
+        this.$month.children[c].classList.remove( 'readonly' );        
+      }
+
       this.$month.children[c].setAttribute( 'data-year', calendar.getFullYear() );
       this.$month.children[c].setAttribute( 'data-month', calendar.getMonth() );
       this.$month.children[c].setAttribute( 'data-date', calendar.getDate() );
@@ -584,8 +593,8 @@ export default class PrimateCalendar extends HTMLElement {
 
       // Outside
       if(
-        calendar.getFullYear() === this._display.getFullYear() &&
-        calendar.getMonth() === this._display.getMonth()
+        calendar.getFullYear() === display.getFullYear() &&
+        calendar.getMonth() === display.getMonth()
       ) {
         this.$month.children[c].classList.remove( 'outside' );
       } else {
@@ -619,6 +628,7 @@ export default class PrimateCalendar extends HTMLElement {
   // Setup
   connectedCallback() {
     this._upgrade( 'defaultMonth' );
+    this._upgrade( 'defaultAsDate' );
     this._upgrade( 'disabledNavigation' );
     this._upgrade( 'fixedWeeks' );    
     this._upgrade( 'hideNavigation' );
@@ -629,6 +639,7 @@ export default class PrimateCalendar extends HTMLElement {
     this._upgrade( 'showOutsideDays' );
     this._upgrade( 'showWeekNumber' );
     this._upgrade( 'size' );
+    this._upgrade( 'toggle' );
     this._upgrade( 'value' );                     
     this._upgrade( 'valueAsDate' );
     this._render();
@@ -647,6 +658,7 @@ export default class PrimateCalendar extends HTMLElement {
       'show-outside-days',
       'show-week-number',
       'size',
+      'toggle',
       'value'
     ];
   }
@@ -665,7 +677,7 @@ export default class PrimateCalendar extends HTMLElement {
   }
   
   set defaultAsDate( date ) {
-    this.defaultMonth = date === null ? null : date.toString();
+    this.defaultMonth = date === null ? null : date.toISOString();
   }
 
   get isDateDisabled() {
@@ -681,12 +693,28 @@ export default class PrimateCalendar extends HTMLElement {
   }
   
   set valueAsDate( date ) {
-    this.value = date === null ? null : date.toString();
+    this.value = date === null ? null : date.toISOString();
   }     
 
   // Attributes
   // Reflected
   // Boolean, Number, String, null
+  get defaultMonth() {
+    if( this.hasAttribute( 'default-month' ) ) {
+      return this.getAttribute( 'default-month' );
+    }
+
+    return null;
+  }
+
+  set defaultMonth( value ) {
+    if( value !== null ) {
+      this.setAttribute( 'default-month', value );
+    } else {
+      this.removeAttribute( 'default-month' );
+    }
+  }
+
   get disabledNavigation() {
     return this.hasAttribute( 'disabled-navigation' );
   }
@@ -859,6 +887,26 @@ export default class PrimateCalendar extends HTMLElement {
     }
   }  
 
+  get toggle() {
+    return this.hasAttribute( 'toggle' );
+  }
+
+  set toggle( value ) {
+    if( value !== null ) {
+      if( typeof value === 'boolean' ) {
+        value = value.toString();
+      }
+
+      if( value === 'false' ) {
+        this.removeAttribute( 'toggle' );
+      } else {
+        this.setAttribute( 'toggle', '' );
+      }
+    } else {
+      this.removeAttribute( 'toggle' );
+    }
+  }
+  
   get value() {
     if( this.hasAttribute( 'value' ) ) {
       return this.getAttribute( 'value' );
@@ -873,7 +921,7 @@ export default class PrimateCalendar extends HTMLElement {
     } else {
       this.removeAttribute( 'value' );
     }
-  }  
+  }   
 }
 
 window.customElements.define( 'ape-calendar', PrimateCalendar );

@@ -28,7 +28,7 @@
         font-weight: 400;
         height: 43px;
         justify-content: center;
-        margin: 0;
+        margin: 16px auto 0 auto;
         padding: 0 16px 0 16px;
       }
     </style>
@@ -36,8 +36,8 @@
   </head>
   <body>
 
-    <ape-calendar fixed-weeks show-outside-days>
-      <button style="margin: 0 auto;" type="button">Today</button>
+    <ape-calendar>
+      <button type="button">Today</button>
     </ape-calendar>
 
     <script src="./components/ape.js" type="module"></script>
@@ -48,14 +48,16 @@
         if( date.getDay() === 0 || date.getDay() === 6 ) return true;
         return false;
       };
+      // calendar.defaultAsDate = new Date( 2004, 5, 4 );      
       calendar.addEventListener( 'ape-week', ( evt ) => console.log( 'WEEK: ' + evt.detail.value ) );
       calendar.addEventListener( 'ape-change', ( evt ) => {
-        console.log( evt.detail );
+        console.log( evt.detail.value );
       } );
 
       const today = document.querySelector( 'ape-calendar button' );
       today.addEventListener( 'click', () => {
-        console.log( 'TODAY' );
+        calendar.defaultAsDate = new Date();
+        calendar.valueAsDate = new Date();
       } );
     </script>
 

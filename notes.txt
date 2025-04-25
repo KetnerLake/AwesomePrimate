@@ -14,7 +14,7 @@ size
 captionLayout (label, dropdown, dropdown-months, dropdown-years)
   - startMonth
   - endMonth
-defaultMonth  
+✅ defaultMonth  
 ✅ fixedWeeks (6)
 ✅  * To avoid resizing
 ✅ footer (slot)
@@ -34,5 +34,7 @@ startOfWeek
 ➕ size
 ➕ onWeekChange
 ➕ valueAsDate
-isDateDisabled
+➕ defaultAsDate
+➕ isDateDisabled
 isDateFilled
+➕ toggle
