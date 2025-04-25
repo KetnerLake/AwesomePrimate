@@ -207,14 +207,14 @@ export default class PrimateCalendar extends HTMLElement {
 
   // When things change
   _render() {
-    const display = this.defaultAsDate === null ? new Date() : this.defaultAsDate;
-    
     // Navigation
     this.$previous.disabled = this.disabledNavigation;
     this.$next.disabled = this.disabledNavigation;
 
+    // Label
     this._updateLabel();
 
+    // Pass to month element
     this.$month.defaultMonth = this.defaultMonth;
     this.$month.fixedWeeks = this.fixedWeeks;
     this.$month.showOutsideDays = this.showOutsideDays;
