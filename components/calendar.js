@@ -30,23 +30,24 @@ export default class PrimateCalendar extends HTMLElement {
           align-items: center;
           background: none;
           border: none;
-          border: solid 1px #e4e5e9;
-          border-radius: 4px;
+          border: var( --calendar-header-button-border, solid 1px #e4e5e9 );
+          border-color: var( --calendar-header-button-border-color, #e4e5e9 );
+          border-radius: var( --calendar-header-button-border-radius, 6px );
           box-sizing: border-box;
-          color: #9194a2;
+          color: var( --calendar-header-button-color, #9194a2 );          
           cursor: pointer;
           display: flex;
-          height: 43px;
+          height: var( --calendar-header-button-size, 43px );
           justify-content: center;
           margin: 0;
           outline: solid 3px transparent;
           outline-offset: 1px;
           padding: 0;
-          width: 43px;
+          width: var( --calendar-header-button-size, 43px );
         }
 
         header button:hover {
-          background: #f1f2f3;
+          background: var( --calendar-header-button-background-hover, #f1f2f3 );
         }
 
         header button:focus {        
@@ -74,7 +75,7 @@ export default class PrimateCalendar extends HTMLElement {
 
         i {
           box-sizing: border-box;
-          color: #9194a2;
+          color: var( --calendar-header-button-color, #9194a2 );
           cursor: pointer;
           direction: ltr;
           display: flex;

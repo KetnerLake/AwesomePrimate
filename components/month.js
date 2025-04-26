@@ -36,23 +36,23 @@ export default class PrimateMonth extends HTMLElement {
           border: none;
           border-radius: 6px;
           box-sizing: border-box;          
-          color: #2f323f;
+          color: var( --month-color, #2f323f );
           cursor: pointer;
           display: flex;
           flex-direction: column;
-          font-size: 16px;          
-          height: 43px;
+          font-size: var( --month-font-size, 16px );          
+          height: var( --month-size, 43px );
           justify-content: center;
           margin: 0;
           outline: solid 3px transparent;
           outline-offset: 1px;
           padding: 0;
           text-align: center;
-          width: 43px;
+          width: var( --month-size, 43px );
         }
 
         article[part=month] button:hover {
-          background: #f1f2f3;
+          background: var( --month-hover-background, #f1f2f3 );
         }
 
         article[part=month] button.hidden {
@@ -60,21 +60,21 @@ export default class PrimateMonth extends HTMLElement {
         }
 
         article[part=month] button.outside {
-          color: #9194a2;
+          color: var( --month-outside-color, #9194a2 );
           visibility: hidden;
         }
 
         article[part=month] button.today {
-          background: #f1f2f3;
+          background: var( --month-today-background, #f1f2f3 );
         }
 
         article[part=month] button.selected {        
-          background: #2f323f;
-          color: #ffffff;
+          background: var( --month-color, #2f323f );
+          color: var( --month-selected-color, #ffffff );
         }        
 
         article[part=month] button[disabled] {
-          color: #9194a2;
+          color: var( --month-outside-color, #9194a2 );
           cursor: default;
         }        
 
@@ -90,12 +90,12 @@ export default class PrimateMonth extends HTMLElement {
 
         article[part=weekdays] p {        
           box-sizing: border-box;
-          color: #9194a2;
+          color: var( --month-outside-color, #9194a2 );
           flex-basis: 0;
           flex-grow: 1;
-          font-size: 16px;
-          height: 43px;
-          line-height: 43px;
+          font-size: var( --month-font-size, 16px );
+          height: var( --month-size, 43px );
+          line-height: var( --month-size, 43px );
           margin: 0;
           padding: 0;
           text-align: center;
@@ -113,24 +113,23 @@ export default class PrimateMonth extends HTMLElement {
           appearance: none;
           background: none;
           border: none;
-          border-radius: 6px;
+          border-radius: var( --month-border-radius, 6px );
           box-sizing: border-box;
-          color: #9194a2;
+          color: var( --month-outside-color, #9194a2 );
           cursor: pointer;
           display: flex;
-          font-family: 'IBM Plex Sans', sans-serif;
-          font-size: 14px;
+          font-size: calc( var( --month-font-size, 16px ) * 0.85 );
           font-weight: 400;
-          height: 43px;
+          height: var( --month-size, 43px );
           justify-content: center;
           margin: 0;
           padding: 0;
           text-align: center;
-          width: 43px;      
+          width: var( --month-size, 43px );      
         }
 
         aside button:hover {
-          background: #f1f2f3;
+          background: var( --month-hover-background, #f1f2f3 );
         }
 
         section {
